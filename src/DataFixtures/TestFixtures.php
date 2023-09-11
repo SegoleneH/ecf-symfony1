@@ -346,21 +346,32 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
         // $emprunt1 = $empruntRepository->find(1);
         // $emprunt2 = $empruntRepository->find(2);
         // $emprunt3 = $empruntRepository->find(3);
+
 //!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//!         In TestFixtures.php line 352:
-                                                                                     
-//!   [Error]                                                                            
-//!   Object of class App\Repository\EmpruntRepository could not be converted to string  
-                                                                                     
+
+//! In ExceptionConverter.php line 114:
+                                                                                         
+//!   [Doctrine\DBAL\Exception\NotNullConstraintViolationException (1048)]                     
+//!   An exception occurred while executing a query: SQLSTATE[23000]: Integrity constraint vi  
+//!   olation: 1048 Column 'emprunteur_id' cannot be null  
+
+//!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//! In Statement.php line 121:
+
+//!   [PDOException (23000)]                                                                   
+//!   SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'emprunteur_id' cannot be   
+//!   null  
+
+//!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //! Exception trace:
-//!   at /home/segolene/a-projects/ECF/back/ecf1-projet-bibliotheque/ecf-symfony1/ecf-symfony1/
-//!     src/DataFixtures/TestFixtures.php:352
+//!  Doctrine\ORM\EntityManager->flush() at ../DataFixtures/TestFixtures.php:412
+//!  App\DataFixtures\TestFixtures->loadEmprunts() at ../DataFixtures/TestFixtures.php:39
 
-//!  App\DataFixtures\TestFixtures->loadEmprunts() at /home/segolene/a-projects/ECF/back/ecf1-projet-bibliotheque/ecf-symfony1/ecf-symfony1/
-//!     src/DataFixtures/TestFixtures.php:39
 //!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        // Emprunteur
+
+    // Emprunteur
         $emprunteurRepository = $this->manager->getRepository(Emprunteur::class);
         $emprunteurs = $emprunteurRepository->findAll();
         $emprunteur1 = $emprunteurRepository->find(1);

@@ -30,6 +30,5 @@ final class Version20230911123243 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE emprunt DROP FOREIGN KEY FK_364071D7F0840037');
         $this->addSql('DROP INDEX IDX_364071D7F0840037 ON emprunt');
-        $this->addSql('ALTER TABLE emprunt DROP emprunteur_id');
     }
 }

@@ -36,31 +36,16 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
     {
         $this->manager = $manager;
         $this->loadAuteurs();
-        $this->loadEmprunts();
-        $this->loadEmprunteurs();
         $this->loadGenres();
         $this->loadLivres();
-        $this->loadUsers();
+        $this->loadEmprunteurs();
+        $this->loadEmprunts();
     }
 
-    //^FONCTION AUTEUR   
+    //^------------------------FONCTION AUTEUR------------------------------
 
-    public function loadAuteurs() : void
+    public function loadAuteurs(): void
     {
-        //* RELATIONS
-        // Auteur<--
-        // $auteurRepository = $this->manager->getRepository(Auteur::class);
-        // $auteurs = $auteurRepository->findAll();
-        // $auteur3 = $auteurRepository->find(1);
-        // $auteur2 = $auteurRepository->find(2);
-        // $auteur3 = $auteurRepository->find(3);
-        // Livre
-        // $livreRepository = $this->manager->getRepository(Livre::class);
-        // $livres = $livreRepository->findAll();
-        // $livre1 = $livreRepository->find(1);
-        // $livre2 = $livreRepository->find(2);
-        // $livre3 = $livreRepository->find(3);
-
         //* DONNÉES STATIQUES      
 
         $infos = [
@@ -94,7 +79,7 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
             $auteur = new Auteur();
 
             $auteur->setPrenom($this->faker->firstName());
-            
+
             $auteur->setNom($this->faker->lastName());
 
             $this->manager->persist($auteur);
@@ -104,41 +89,23 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
     }
 
 
-    //^FONCTION GENRE 
+    //^-------------------FONCTION GENRE----------------------------------
 
     public function loadGenres(): void
     {
-        //* RELATIONS
-        // Genre<--
-        // $genreRepository = $this->manager->getRepository(Genre::class);
-        // $genres = $genreRepository->findAll();
-        // $genre1 = $genreRepository->find(1);
-        // $genre2 = $genreRepository->find(2);
-        // $genre3 = $genreRepository->find(3);
-        // Livre
-        // $livreRepository = $this->manager->getRepository(Livre::class);
-        // $livres = $livreRepository->findAll();
-        // $livre1 = $livreRepository->find(1);
-        // $livre2 = $livreRepository->find(2);
-        // $livre3 = $livreRepository->find(3);
-
-        //* DONNÉES STATIQUES      
-
+        //* DONNÉES STATIQUES
         $infos = [
             [
                 'nom' => 'Romans',
                 'description' => 'Reprehenderit porro non ut placeat harum, modi quidem.',
-                // 'livres' => [$livre1],
             ],
             [
                 'nom' => 'Encyclopédies',
                 'description' => 'Reprehenderit porro non ut placeat harum, modi quidem.',
-                // 'livres' => [$livre2],
             ],
             [
                 'nom' => 'Dictionnaires',
                 'description' => 'Reprehenderit porro non ut placeat harum, modi quidem.',
-                // 'livres' => [$livre3],
             ],
         ];
 
@@ -146,9 +113,6 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
             $genre = new Genre();
             $genre->setNom($info['nom']);
             $genre->setDescription($info['description']);
-
-            // $livre = $info['livres'][0];
-            // $genre->addLivre
 
             $this->manager->persist($genre);
         }
@@ -160,9 +124,9 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
 
             $genre = new Genre();
 
-            $genre->setNom($this->faker->words(1,3));
+            $genre->setNom($this->faker->words(1, 3));
 
-            $genre->setDescription($this->faker->sentence(1,3));
+            $genre->setDescription($this->faker->sentence(1, 3));
 
             $this->manager->persist($genre);
         }
@@ -170,30 +134,24 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
         $this->manager->flush();
     }
 
+    //^---------------------FONCTION LIVRE-----------------------------------------   
 
-    //^FONCTION LIVRE   
-
-    public function loadLivres() : void 
+    public function loadLivres(): void
     {
         //* RELATIONS
-        // Livre<--
-        // $livreRepository = $this->manager->getRepository(Emprunteur::class);
-        // $livres = $livreRepository->findAll();
-        // $livre1 = $livreRepository->find(1);
-        // $livre2 = $livreRepository->find(2);
-        // $livre3 = $livreRepository->find(3);
         // Genre
         $genreRepository = $this->manager->getRepository(Genre::class);
         $genres = $genreRepository->findAll();
-        $genre1 = $genreRepository->find(1);
-        $genre2 = $genreRepository->find(2);
-        $genre3 = $genreRepository->find(3);
-        // Auteur
-        $auteurRepository = $this->manager->getRepository(Genre::class);
+        $fantasy = $genreRepository->find(1);
+        $nouvelle = $genreRepository->find(2);
+        $poesie = $genreRepository->find(3);
+        //Auteur
+        $auteurRepository = $this->manager->getRepository(Auteur::class);
         $auteurs = $auteurRepository->findAll();
         $auteur1 = $auteurRepository->find(1);
         $auteur2 = $auteurRepository->find(2);
         $auteur3 = $auteurRepository->find(3);
+
 
         //* DONNÉES STATIQUES      
 
@@ -204,7 +162,7 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
                 'nombre_pages' => '327',
                 'code_isbn' => '45789621',
                 'auteur' => [$auteur1],
-                'genre' => [$genre1],
+                'genre' => [$poesie],
             ],
             [
                 'titre' => 'Les plantes vertes',
@@ -212,7 +170,7 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
                 'nombre_pages' => '296',
                 'code_isbn' => '45851024',
                 'auteur' => [$auteur2],
-                'genre' => [$genre2],
+                'genre' => [$nouvelle],
             ],
             [
                 'titre' => 'Dictionnaire des meilleures données',
@@ -220,7 +178,7 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
                 'nombre_pages' => '354',
                 'code_isbn' => '56823691',
                 'auteur' => [$auteur3],
-                'genre' => [$genre3],
+                'genre' => [$fantasy],
             ],
         ];
 
@@ -228,13 +186,22 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
             $livre = new Livre();
             $livre->setTitre($info['titre']);
             $livre->setAnneeEdition($info['annee_edition']);
+            $livre->setNombrePages($info['nombre_pages']);
             $livre->setCodeIsbn($info['code_isbn']);
 
             $auteur = $info['auteur'][0];
+            $auteur1 = $auteurs[0];
+            $auteurs[0]->getNom();
             $livre->setAuteur($auteur);
+            // foreach ($info['auteur'] as $auteur) {
+            // }
 
             $genre = $info['genre'][0];
+            $fantasy = $genres[0];
+            $genres[0]->getNom();
             $livre->addGenre($genre);
+            // foreach ($info['genre'] as $genre) {
+            // }
 
             $this->manager->persist($livre);
         }
@@ -246,9 +213,11 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
 
             $livre = new Livre();
 
-            $livre->setTitre($this->faker->words(1,5));
+            $livre->setTitre($this->faker->words(1, 5));
 
             $livre->setAnneeEdition($this->faker->year());
+
+            $livre->setNombrePages($this->faker->randomNumber(3, true));
 
             $livre->setCodeIsbn($this->faker->randomNumber(8, true));
 
@@ -264,14 +233,12 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
         $this->manager->flush();
 
     }
+    
 
-    //^ FONCTION EMPRUNTEUR
+    //^---------------------FONCTION EMPRUNTEUR-------------------------------------
     public function loadEmprunteurs(): void
     {
         //* RELATIONS
-        // Emprunteur<--
-        // $EmprunteurRepository = $this->manager->getRepository(Emprunteur::class);
-        // $emprunteurs = $EmprunteurRepository->findAll();
         // User
         $userRepository = $this->manager->getRepository(User::class);
         $users = $userRepository->findAll();
@@ -283,36 +250,67 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
 
         $infos = [
             [
+                'email' => 'foo.foo@example.com',
+                'roles' => ['ROLE_USER'],
+                'password' => '123',
+                'enabled' => true,
+
                 'nom' => 'foo',
                 'prenom' => 'foo',
-                'tel' => '0756655982',
-                'user' => [$user1]
+                'tel' => '123456789'
             ],
             [
+                'email' => 'bar.bar@example.com',
+                'roles' => ['ROLE_USER'],
+                'password' => '123',
+                'enabled' => false,
+
                 'nom' => 'bar',
                 'prenom' => 'bar',
-                'tel' => '0756795982',
-                'user' => [$user2]
+                'tel' => '123456789'
             ],
             [
+                'email' => 'baz.baz@example.com',
+                'roles' => ['ROLE_USER'],
+                'password' => '123',
+                'enabled' => true,
+
                 'nom' => 'baz',
                 'prenom' => 'baz',
-                'tel' => '0774455963',
-                'user' => [$user3]
+                'tel' => '123456789'
             ],
         ];
 
         foreach ($infos as $info) {
             $emprunteur = new Emprunteur();
-            
+
+            // $emprunteur->setNom($info['nom']);
+            // $emprunteur->setPrenom($info['prenom']);
+            // $emprunteur->setTel($info['tel']);
+//&\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+            // $user = $info['user'][0];
+            // $user1 = $users[0];
+            // $users[0]->getId();
+            // $emprunteur->setUser($user);
+//&\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+            $user = new User();
+            $user->setEmail($info['email']);
+            $password = $this->hasher->hashPassword($user, $info['password']);
+            $user->setPassword($password);
+            $user->setRoles($info['roles']);
+            $user->setEnabled($info['enabled']);
+
+            $this->manager->persist($user);
+
+
+            $emprunteur = new Emprunteur();
             $emprunteur->setNom($info['nom']);
             $emprunteur->setPrenom($info['prenom']);
             $emprunteur->setTel($info['tel']);
-            
-            $user = $info['user'][0];
             $emprunteur->setUser($user);
 
-           $this->manager->persist($emprunteur);
+            $this->manager->persist($emprunteur);
         }
 
         $this->manager->flush();
@@ -320,15 +318,19 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
         //* DONNÉES DYNAMIQUES
         for ($i = 0; $i < 10; $i++) {
 
+            $user = new User();
+            $user->setEmail($this->faker->unique()->safeEmail());
+            $password = $this->hasher->hashPassword($user, '123');
+            $user->setPassword($password);
+            $user->setRoles(['ROLE_USER']);
+            $user->setEnabled($this->faker->boolean());
+
+            $this->manager->persist($user);
+
             $emprunteur = new Emprunteur();
-
             $emprunteur->setNom($this->faker->lastName());
-
             $emprunteur->setPrenom($this->faker->firstName());
-
-            $emprunteur->setTel($this->faker->e164PhoneNumber());
-
-            $user = $this->faker->randomElement($users);
+            $emprunteur->setTel($this->faker->phoneNumber());
             $emprunteur->setUser($user);
 
             $this->manager->persist($emprunteur);
@@ -336,7 +338,8 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
         $this->manager->flush();
     }
 
-    //^ FONCTION EMPRUNT
+
+    //^---------------------------FONCTION EMPRUNTS-----------------------------------------
     public function loadEmprunts(): void
     {
         //* RELATIONS
@@ -346,30 +349,6 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
         // $emprunt1 = $empruntRepository->find(1);
         // $emprunt2 = $empruntRepository->find(2);
         // $emprunt3 = $empruntRepository->find(3);
-
-//!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-//! In ExceptionConverter.php line 114:
-                                                                                         
-//!   [Doctrine\DBAL\Exception\NotNullConstraintViolationException (1048)]                     
-//!   An exception occurred while executing a query: SQLSTATE[23000]: Integrity constraint vi  
-//!   olation: 1048 Column 'emprunteur_id' cannot be null  
-
-//!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-//! In Statement.php line 121:
-
-//!   [PDOException (23000)]                                                                   
-//!   SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'emprunteur_id' cannot be   
-//!   null  
-
-//!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-//! Exception trace:
-//!  Doctrine\ORM\EntityManager->flush() at ../DataFixtures/TestFixtures.php:412
-//!  App\DataFixtures\TestFixtures->loadEmprunts() at ../DataFixtures/TestFixtures.php:39
-
-//!---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     // Emprunteur
         $emprunteurRepository = $this->manager->getRepository(Emprunteur::class);
@@ -444,83 +423,83 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
         $this->manager->flush();
     }
 
-    //^ FONCTION USERS
-    public function loadUsers(): void
-    {
+    //^---------------------------FONCTION USERS------------------------------------
+    // public function loadUsers(): void
+    // {
 
-        //* RELATIONS
-        // User<--
-        $userRepository = $this->manager->getRepository(User::class);
-        // $users = $userRepository->findAll();
+    //     //* RELATIONS
+    //     // User<--
+    //     $userRepository = $this->manager->getRepository(User::class);
+    //     // $users = $userRepository->findAll();
 
-        // Emprunteur
-        $emprunteurRepository = $this->manager->getRepository(Emprunteur::class);
-        $emprunteurs = $emprunteurRepository->findAll();
-        $emprunteur1 = $emprunteurRepository->find(1);
-        $emprunteur2 = $emprunteurRepository->find(2);
-        $emprunteur3 = $emprunteurRepository->find(3);
+    //     // Emprunteur
+    //     $emprunteurRepository = $this->manager->getRepository(Emprunteur::class);
+    //     $emprunteurs = $emprunteurRepository->findAll();
+    //     $emprunteur1 = $emprunteurRepository->find(1);
+    //     $emprunteur2 = $emprunteurRepository->find(2);
+    //     $emprunteur3 = $emprunteurRepository->find(3);
 
-        //* DONNÉES STATIQUES
+    //     //* DONNÉES STATIQUES
 
-        $infos = [
-            [
-                'email' => 'foo.foo@example.com',
-                'password' => '123',
-                'roles' => ['ROLE_USER'],
-                'enabled' => false,
-                'emprunteur' => [$emprunteur1],
-            ],
-            [
-                'email' => 'bar.bar@example.com',
-                'password' => '123',
-                'roles' => ['ROLE_USER'],
-                'enabled' => false,
-                'emprunteur' => [$emprunteur2],
-            ],
-            [
-                'email' => 'baz.baz@example.com',
-                'password' => '123',
-                'roles' => ['ROLE_USER'],
-                'enabled' => false,
-                'emprunteur' => [$emprunteur3],
-            ],
-        ];
+    //     $infos = [
+    //         [
+    //             'email' => 'foo.foo@example.com',
+    //             'password' => '123',
+    //             'roles' => ['ROLE_USER'],
+    //             'enabled' => false,
+    //             'emprunteur' => [$emprunteur1],
+    //         ],
+    //         [
+    //             'email' => 'bar.bar@example.com',
+    //             'password' => '123',
+    //             'roles' => ['ROLE_USER'],
+    //             'enabled' => false,
+    //             'emprunteur' => [$emprunteur2],
+    //         ],
+    //         [
+    //             'email' => 'baz.baz@example.com',
+    //             'password' => '123',
+    //             'roles' => ['ROLE_USER'],
+    //             'enabled' => false,
+    //             'emprunteur' => [$emprunteur3],
+    //         ],
+    //     ];
 
-        foreach ($infos as $info) {
-            $user = new User();
-            $user->setEmail($info['email']);
-            $password = $this->hasher->hashPassword($user, $info['password']);
-            $user->setPassword($password);
-            $user->setEnabled($info['enabled']);
-            $user->setRoles($info['roles']);
+    //     foreach ($infos as $info) {
+    //         $user = new User();
+    //         $user->setEmail($info['email']);
+    //         $password = $this->hasher->hashPassword($user, $info['password']);
+    //         $user->setPassword($password);
+    //         $user->setEnabled($info['enabled']);
+    //         $user->setRoles($info['roles']);
 
-            $emprunteur = $info['emprunteur'][0];
-            $user->setEmprunteur($emprunteur);
+    //         $emprunteur = $info['emprunteur'][0];
+    //         $user->setEmprunteur($emprunteur);
 
-            $this->manager->persist($user);
-        }
+    //         $this->manager->persist($user);
+    //     }
 
-        $this->manager->flush();
+    //     $this->manager->flush();
 
-        //* DONNÉES DYNAMIQUES
-        for ($i = 0; $i < 10; $i++) {
+    //     //* DONNÉES DYNAMIQUES
+    //     for ($i = 0; $i < 10; $i++) {
 
-            $user = new User();
+    //         $user = new User();
 
-            $user->setEmail($this->faker->email());
+    //         $user->setEmail($this->faker->email());
 
-            $password = $this->hasher->hashPassword($user, '123');
-            $user->setPassword($password);
+    //         $password = $this->hasher->hashPassword($user, '123');
+    //         $user->setPassword($password);
 
-            $user->setRoles(['ROLE_USER']);
+    //         $user->setRoles(['ROLE_USER']);
 
-            $user->setEnabled($this->faker->boolean());
+    //         $user->setEnabled($this->faker->boolean());
 
-            $emprunteur = $this->faker->randomElement($emprunteurs);
-            $user->setEmprunteur($emprunteur);
+    //         $emprunteur = $this->faker->randomElement($emprunteurs);
+    //         $user->setEmprunteur($emprunteur);
 
-            $this->manager->persist($user);
-        }
-        $this->manager->flush();
-    }
+    //         $this->manager->persist($user);
+    //     }
+    //     $this->manager->flush();
+    // }
 }

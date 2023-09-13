@@ -1,6 +1,6 @@
 # ECF Back - Part 1 - Projet bibliothèque - BDD
 
-Ce projet contient une application web dynamique qui peut être utilisée par une bibliothèque pour parcourir leur base de données.
+Ce repository contient une application web dynamique qui peut être utilisée par une bibliothèque pour parcourir leur base de données.
 
 
 ## Prérequis
@@ -35,7 +35,7 @@ APP_DEBUG=true
 
 APP_SECRET=123
 
-DATABASE_URL="mysql://symfony:123@127.0.0.1:3306/symfony?serverVersion=mariadb-10.6.128&charset=utf8mb4"
+DATABASE_URL="mysql://ecf-symfony1:123@127.0.0.1:3306/ecf-symfony1?serverVersion=mariadb-10.6.128&charset=utf8mb4"
 ```
 
 Pensez à changer la variable `APP_SECRET` & les codes d'accès `123` dans la variable `DATABASE_URL`.

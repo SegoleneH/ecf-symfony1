@@ -65,8 +65,10 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
 
         foreach ($infos as $info) {
             $auteur = new Auteur();
-            $auteur->setPrenom($info['prenom']);
-            $auteur->setNom($info['nom']);
+            $auteur
+                ->setPrenom($info['prenom'])
+                ->setNom($info['nom'])
+            ;
 
             $this->manager->persist($auteur);
         }
@@ -78,9 +80,10 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
 
             $auteur = new Auteur();
 
-            $auteur->setPrenom($this->faker->firstName());
-
-            $auteur->setNom($this->faker->lastName());
+            $auteur
+                ->setPrenom($this->faker->firstName())
+                ->setNom($this->faker->lastName())
+            ;
 
             $this->manager->persist($auteur);
         }
@@ -151,8 +154,10 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
 
         foreach ($infos as $info) {
             $genre = new Genre();
-            $genre->setNom($info['nom']);
-            $genre->setDescription($info['description']);
+            $genre
+                ->setNom($info['nom'])
+                ->setDescription($info['description'])
+            ;
 
             $this->manager->persist($genre);
         }
@@ -220,15 +225,14 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
 
         foreach ($infos as $info) {
             $livre = new Livre();
-            $livre->setTitre($info['titre']);
-            $livre->setAnneeEdition($info['annee_edition']);
-            $livre->setNombrePages($info['nombre_pages']);
-            $livre->setCodeIsbn($info['code_isbn']);
-
-            $livre->setAuteur($info['auteur']);
-
-            $livre->addGenre($info['genre'][0]);
-            
+            $livre
+                ->setTitre($info['titre'])
+                ->setAnneeEdition($info['annee_edition'])
+                ->setNombrePages($info['nombre_pages'])
+                ->setCodeIsbn($info['code_isbn'])
+                ->setAuteur($info['auteur'])
+                ->addGenre($info['genre'][0])
+            ;
 
             $this->manager->persist($livre);
         }
@@ -266,15 +270,14 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
     public function loadEmprunteurs(): void
     {
         //* RELATIONS
-        // User
         $userRepository = $this->manager->getRepository(User::class);
         $users = $userRepository->findAll();
         $user1 = $userRepository->find(1);
         $user2 = $userRepository->find(2);
         $user3 = $userRepository->find(3);
+        $user4 = $userRepository->find(4);
 
         //* DONNÉES STATIQUES      
-
         $infos = [
             [
                 'email' => 'foo.foo@example.com',
@@ -309,33 +312,28 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
         ];
 
         foreach ($infos as $info) {
-            $emprunteur = new Emprunteur();
-
-            // $emprunteur->setNom($info['nom']);
-            // $emprunteur->setPrenom($info['prenom']);
-            // $emprunteur->setTel($info['tel']);
-//&\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-            // $user = $info['user'][0];
-            // $user1 = $users[0];
-            // $users[0]->getId();
-            // $emprunteur->setUser($user);
-//&\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
+            
             $user = new User();
-            $user->setEmail($info['email']);
+            
             $password = $this->hasher->hashPassword($user, $info['password']);
-            $user->setPassword($password);
-            $user->setRoles($info['roles']);
-            $user->setEnabled($info['enabled']);
 
+            $user
+            ->setEmail($info['email'])
+            ->setPassword($password)
+            ->setRoles($info['roles'])
+            ->setEnabled($info['enabled'])
+            ;
+            
             $this->manager->persist($user);
 
-
             $emprunteur = new Emprunteur();
-            $emprunteur->setNom($info['nom']);
-            $emprunteur->setPrenom($info['prenom']);
-            $emprunteur->setTel($info['tel']);
-            $emprunteur->setUser($user);
+
+            $emprunteur
+                ->setNom($info['nom'])
+                ->setPrenom($info['prenom'])
+                ->setTel($info['tel'])
+                ->setUser($user)
+            ;
 
             $this->manager->persist($emprunteur);
         }
@@ -346,19 +344,23 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
         for ($i = 0; $i < 100; $i++) {
 
             $user = new User();
-            $user->setEmail($this->faker->unique()->safeEmail());
             $password = $this->hasher->hashPassword($user, '123');
-            $user->setPassword($password);
-            $user->setRoles(['ROLE_USER']);
-            $user->setEnabled($this->faker->boolean());
+            $user
+                ->setEmail($this->faker->unique()->safeEmail())
+                ->setPassword($password)
+                ->setRoles(['ROLE_USER'])
+                ->setEnabled($this->faker->boolean())
+            ;
 
             $this->manager->persist($user);
 
             $emprunteur = new Emprunteur();
-            $emprunteur->setNom($this->faker->lastName());
-            $emprunteur->setPrenom($this->faker->firstName());
-            $emprunteur->setTel($this->faker->phoneNumber());
-            $emprunteur->setUser($user);
+            $emprunteur
+                ->setNom($this->faker->lastName())
+                ->setPrenom($this->faker->firstName())
+                ->setTel($this->faker->phoneNumber())
+                ->setUser($user)
+            ;
 
             $this->manager->persist($emprunteur);
         }
@@ -408,14 +410,15 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
 
         foreach ($infos as $info) {
             $emprunt = new Emprunt();
-            $emprunt->setDateEmprunt($info['date_emprunt']);
-            $emprunt->setDateRetour($info['date_retour']);
-
             $emprunteur = $info['emprunteur_id'][0];
-            $emprunt->setEmprunteur($emprunteur);
-
             $livre = $info['livre_id'][0];
-            $emprunt->setLivre($livre);
+
+            $emprunt
+                ->setDateEmprunt($info['date_emprunt'])
+                ->setDateRetour($info['date_retour'])
+                ->setEmprunteur($emprunteur)
+                ->setLivre($livre)
+            ;
 
             $this->manager->persist($emprunt);
         }

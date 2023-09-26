@@ -40,20 +40,59 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * This method find all user ordered by email
+     * @return User[] Returns an array of User objects
+     */
+    public function findAll(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->orderBy('u.email', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    /**
+     * This method find a user with a specific email
+     * @param string $email The email to search for
+     * @return User[] Returns an array of User objects
+     */
+    public function findByEmail(string $email): array
+    {
+        return $this->createQueryBuilder('u')
+            ->setParameter('email', "%$email%")
+            ->andWhere('u.email LIKE :email')
+            ->getQuery()
+            ->getResult();
+    }
+    /**
+     * This method find all users whose role is ROLE_USER ordered by email
+     * @return User[] Returns an array of User objects
+     */
+    public function findUsersByRole(?string $userRole): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.roles LIKE :val')
+            ->setParameter('val', "%$userRole%")
+            ->orderBy('u.email', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * This method find all non active users
+     * @return User[] Returns an array of User objects
+     */
+    public function findUsersByEnabled(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.enabled = 0')
+            ->orderBy('u.email', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?User
 //    {

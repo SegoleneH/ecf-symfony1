@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Utilisateurs {% endblock %}
+
+{% block body %}
+
+    <h2>Utilisateurs</h2>
+
+    <h3>Liste des utilisateurs</h3>
+    {% for user in users %}
+        <p> {{ user.email }} (id {{user.id}})</p>
+    {% endfor %}
+
+    <h3>Utilisateur 1 :</h3>
+        <p> {{ user1.email }} (id {{user1.id}}) </p>
+
+
+    <h3>Utilisateur dont l'email est 'foo.foo@example.com' :</h3>
+    {% for user in fooEmail %}
+        <p> {{ user.email }} (id {{ user.id }}) </p>
+    {% endfor %}
+
+    <h3>Utilisateur dont le rôle est 'ROLE_USER' :</h3>
+    {% for user in userRole %}
+        <p>{{ user.email }} (id {{ user.id }})</p>
+    {% endfor %}
+
+    <h3>Utilisateurs inactifs :</h3>
+    {% for user in userActivity %}
+        <p>{{ user.email }} (id {{ user.id }})</p>
+        <p>{{user.enabled ? 'true' : 'false'}}</p>
+    {% endfor %}
+
+{% endblock %}

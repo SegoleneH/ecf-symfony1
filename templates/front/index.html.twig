@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Catalogue des Livres</h1>
+        <div class="row">
+            <div class="col">
+                <h2>Livres</h2>
+                {% if livres %}
+                    <ul>
+                        {% for livre in livres %}
+                            <li>
+                                <a href="{{ path('app_front_livre_show', {id: livre.id}) }}">{{ livre.titre }}</a>, Auteur : {{ livre.auteur }}, Année edition {{ livre.anneeEdition }}, Nombre pages : {{ livre.nombrePages }} </li>                            {# &TODO : titre => lien vers livre #}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

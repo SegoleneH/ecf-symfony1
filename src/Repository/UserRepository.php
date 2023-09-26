@@ -94,6 +94,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
 
+    public function findByEmprunteur(Emprunteur $emprunteur): array
+    {
+        return $this->createQueryBuilder('u')
+            ->innerJoin('u.emprunteur', 'e')
+            ->andWhere('sy = :sy')
+            ->setParameter('sy', $schoolYear)
+            ->orderBy('s.firstName', 'ASC')
+            ->addOrderBy('s.lastName', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    public function findOneBySomeField($value): ?User
 //    {
 //        return $this->createQueryBuilder('u')

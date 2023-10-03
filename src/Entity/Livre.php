@@ -2,14 +2,23 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\LivreRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+#[Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false, hardDelete: false)]
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
 class Livre
 {
+    use TimestampableEntity;
+    use SoftDeleteableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -30,17 +39,21 @@ class Livre
     #[ORM\OneToMany(mappedBy: 'livre', targetEntity: Emprunt::class)]
     private Collection $emprunts;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Auteur $auteur = null;
-
     #[ORM\ManyToMany(targetEntity: Genre::class)]
     private Collection $genre;
+
+    #[ORM\ManyToMany(targetEntity: Genre::class, mappedBy: 'livres')]
+    private Collection $genres;
+
+    #[ORM\ManyToOne(inversedBy: 'livres')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?auteur $auteur = null;
 
     public function __construct()
     {
         $this->emprunts = new ArrayCollection();
         $this->genre = new ArrayCollection();
+        $this->genres = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -126,18 +139,7 @@ class Livre
         return $this;
     }
 
-    public function getAuteur(): ?Auteur
-    {
-        return $this->auteur;
-    }
-
-    public function setAuteur(?Auteur $auteur): static
-    {
-        $this->auteur = $auteur;
-
-        return $this;
-    }
-
+    
     /**
      * @return Collection<int, Genre>
      */
@@ -161,7 +163,27 @@ class Livre
 
         return $this;
     }
+    
+    /**
+     * @return Collection<int, Genre>
+     */
+    public function getGenres(): Collection
+    {
+        return $this->genres;
+    }
 
+    public function getAuteur(): ?auteur
+    {
+        return $this->auteur;
+    }
+
+    public function setAuteur(?auteur $auteur): static
+    {
+        $this->auteur = $auteur;
+
+        return $this;
+    }
+    
     public function __toString()
     {
         return "{$this->getTitre()} {$this->getId()}";

@@ -5,10 +5,17 @@ namespace App\Entity;
 use App\Repository\EmpruntRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 
+#[Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false, hardDelete: false)]
 #[ORM\Entity(repositoryClass: EmpruntRepository::class)]
 class Emprunt
 {
+    use TimestampableEntity;
+    use SoftDeleteableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -20,13 +27,14 @@ class Emprunt
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date_retour = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Emprunteur $emprunteur = null;
 
     #[ORM\ManyToOne(inversedBy: 'emprunts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Livre $livre = null;
+
+    #[ORM\ManyToOne(inversedBy: 'emprunts')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Emprunteur $emprunteur = null;
 
     public function getId(): ?int
     {
@@ -57,18 +65,6 @@ class Emprunt
         return $this;
     }
 
-    public function getEmprunteur(): ?Emprunteur
-    {
-        return $this->emprunteur;
-    }
-
-    public function setEmprunteur(?Emprunteur $emprunteur): static
-    {
-        $this->emprunteur = $emprunteur;
-
-        return $this;
-    }
-
     public function getLivre(): ?Livre
     {
         return $this->livre;
@@ -81,6 +77,20 @@ class Emprunt
         return $this;
     }
 
+   
+
+    public function getEmprunteur(): ?Emprunteur
+    {
+        return $this->emprunteur;
+    }
+
+    public function setEmprunteur(?Emprunteur $emprunteur): static
+    {
+        $this->emprunteur = $emprunteur;
+
+        return $this;
+    } 
+    
     public function __toString()
     {
         return "{$this->getLivre()} {$this->getEmprunteur()}";

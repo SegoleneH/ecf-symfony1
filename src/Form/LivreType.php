@@ -2,10 +2,15 @@
 
 namespace App\Form;
 
+use App\Entity\Genre;
+use App\Entity\Auteur;
 use App\Entity\Livre;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Doctrine\ORM\EntityRepository;
+
 
 class LivreType extends AbstractType
 {
@@ -13,11 +18,27 @@ class LivreType extends AbstractType
     {
         $builder
             ->add('titre')
-            ->add('annee_edition')
-            ->add('nombre_pages')
-            ->add('code_isbn')
-            ->add('auteur')
-            ->add('genre')
+            ->add('anneeEdition')
+            ->add('nombrePages')
+            ->add('codeIsbn')
+            ->add('auteur', EntityType::class, [
+                'class' => Auteur::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('a')
+                        ->orderBy('a.nom', 'ASC')
+                        ->addOrderBy('a.prenom', 'ASC');
+                },
+            ])
+            ->add('genres', EntityType::class, [
+                'class' => Genre::class,
+                'choice_label' => 'nom',
+                'multiple' => true,
+                'expanded' => true,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('g')
+                        ->orderBy('g.nom', 'ASC');
+                },
+            ])
         ;
     }
 

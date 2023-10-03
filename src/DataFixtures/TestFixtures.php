@@ -2,12 +2,12 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Auteur;
-use App\Entity\Emprunt;
+use App\Entity\User;
 use App\Entity\Emprunteur;
+use App\Entity\Emprunt;
+use App\Entity\Auteur;
 use App\Entity\Genre;
 use App\Entity\Livre;
-use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -178,6 +178,7 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
         $genre2 = $genreRepository->find(2);
         $genre3 = $genreRepository->find(3);
         $genre4 = $genreRepository->find(4);
+        
         //Auteur
         $auteurRepository = $this->manager->getRepository(Auteur::class);
         $auteurs = $auteurRepository->findAll();
@@ -362,6 +363,8 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
                 ->setUser($user)
             ;
 
+            $emprunteur->setUser($user);
+            
             $this->manager->persist($emprunteur);
         }
         $this->manager->flush();

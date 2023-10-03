@@ -47,7 +47,7 @@ class Livre
 
     #[ORM\ManyToOne(inversedBy: 'livres')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?auteur $auteur = null;
+    private ?Auteur $auteur = null;
 
     public function __construct()
     {

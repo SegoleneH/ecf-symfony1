@@ -27,34 +27,42 @@
                                 </button>
                                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
-                            </li>
-                            {% if is_granted('ROLE_ADMIN')%}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_admin_auteur_index') }}">Auteur</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_admin_emprunt_index') }}">Emprunt</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_admin_emprunteur_index') }}">Emprunteur</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_admin_genre_index') }}">Genre</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_admin_livre_index') }}">Livre</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_admin_user_index') }}">User</a>
-                            </li>      
-                            {% endif %}                
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('app_login') }}">Login</a>
-                            </li>
-                        </ul>  
-                                    </ul>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
+                                        </li>
+                                        {% if is_granted('ROLE_ADMIN')%}
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ path('app_admin_auteur_index') }}">Auteur</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ path('app_admin_emprunt_index') }}">Emprunt</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ path('app_admin_emprunteur_index') }}">Emprunteur</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ path('app_admin_genre_index') }}">Genre</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ path('app_admin_livre_index') }}">Livre</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ path('app_admin_user_index') }}">User</a>
+                                        </li>      
+                                        {% endif %}                
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ path('app_login') }}">Login</a>
+                                        </li>
+                                    </ul>  
+                                    {% if app.user %}
+                                        <div>
+                                            Bonjour {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                                        </div>
+                                    {% else %}
+                                        <div>
+                                            <a href="{{ path('app_login') }}">Login</a>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </nav>

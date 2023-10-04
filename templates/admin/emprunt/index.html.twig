@@ -20,6 +20,7 @@
                 <td>{{ emprunt.id }}</td>
                 <td>{{ emprunt.dateEmprunt ? emprunt.dateEmprunt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ emprunt.dateRetour ? emprunt.dateRetour|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ emprunt.emprunteur.prenom }} {{ emprunt.emprunteur.nom }}</td>
                 <td>
                     <a href="{{ path('app_admin_emprunt_show', {'id': emprunt.id}) }}">show</a>
                     <a href="{{ path('app_admin_emprunt_edit', {'id': emprunt.id}) }}">edit</a>

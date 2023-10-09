@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\EmpruntRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,10 +23,11 @@ class Emprunt
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $date_emprunt = null;
+    private ?\DateTimeInterface $dateEmprunt = null;
 
+    #[Assert\GreaterThan(propertyPath: 'dateEmprunt')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $date_retour = null;
+    private ?\DateTimeInterface $dateRetour = null;
 
 
     #[ORM\ManyToOne(inversedBy: 'emprunts')]
@@ -43,24 +45,24 @@ class Emprunt
 
     public function getDateEmprunt(): ?\DateTimeInterface
     {
-        return $this->date_emprunt;
+        return $this->dateEmprunt;
     }
 
-    public function setDateEmprunt(\DateTimeInterface $date_emprunt): static
+    public function setDateEmprunt(\DateTimeInterface $dateEmprunt): static
     {
-        $this->date_emprunt = $date_emprunt;
+        $this->dateEmprunt = $dateEmprunt;
 
         return $this;
     }
 
     public function getDateRetour(): ?\DateTimeInterface
     {
-        return $this->date_retour;
+        return $this->dateRetour;
     }
 
-    public function setDateRetour(?\DateTimeInterface $date_retour): static
+    public function setDateRetour(?\DateTimeInterface $dateRetour): static
     {
-        $this->date_retour = $date_retour;
+        $this->dateRetour = $dateRetour;
 
         return $this;
     }
@@ -93,6 +95,6 @@ class Emprunt
     
     public function __toString()
     {
-        return "{$this->getLivre()} {$this->getEmprunteur()}";
+        return "id {$this->getId()}";
     }
 }

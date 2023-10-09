@@ -1,4 +1,4 @@
-# ECF Back - Part 1 - Projet bibliothèque - BDD
+# ECF Back - Projet bibliothèque - BDD
 
 Ce repository contient une application web dynamique qui peut être utilisée par une bibliothèque pour parcourir leur base de données.
 

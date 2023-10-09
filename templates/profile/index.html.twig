@@ -12,14 +12,19 @@
             <th>Date d'emprunt</th>
             <th>titre du livre</th>
             <th>Auteur</th>
+            <th>Action</th>
         </tr>    
     </thead>
     <tbody>
+
         {% for emprunt in emprunts %}
             <tr>
                 <td>{{ emprunt.dateEmprunt|date('Y-m-d H:i:s') }}</td>
                 <td>{{ emprunt.livre.titre }}</td>
                 <td>{{ emprunt.livre.auteur.prenom }} {{ emprunt.livre.auteur.nom }}</td>
+                <td>
+                    <a href="{{ path('app_front_livre_show', {'id': emprunt.id}) }}">show</a>
+                </td>
             </tr>
         {% endfor %}
     </tbody>

@@ -1,20 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfileController!{% endblock %}
+{% block title %}Vos emprunts{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<h1>Liste des emprunts en cours de {{ emprunteur.nom}} {{ emprunteur.prenom}} </h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/segolene/a-projects/ECF/back/ecf1-projet-bibliotheque/ecf-symfony1/ecf-symfony1/src/Controller/ProfileController.php'|file_link(0) }}">src/Controller/ProfileController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/segolene/a-projects/ECF/back/ecf1-projet-bibliotheque/ecf-symfony1/ecf-symfony1/templates/profile/index.html.twig'|file_link(0) }}">templates/profile/index.html.twig</a></code></li>
-    </ul>
-</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date d'emprunt</th>
+            <th>titre du livre</th>
+            <th>Auteur</th>
+        </tr>    
+    </thead>
+    <tbody>
+        {% for emprunt in emprunts %}
+            <tr>
+                <td>{{ emprunt.dateEmprunt|date('Y-m-d H:i:s') }}</td>
+                <td>{{ emprunt.livre.titre }}</td>
+                <td>{{ emprunt.livre.auteur.prenom }} {{ emprunt.livre.auteur.nom }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% if emprunts is empty %}
+
+    <p>Vous n'avez aucun emprunt en cours</p>
+
+{% endif %}
+
 {% endblock %}

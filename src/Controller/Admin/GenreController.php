@@ -36,7 +36,7 @@ class GenreController extends AbstractController
             return $this->redirectToRoute('app_admin_genre_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/genre/new.html.twig', [
+        return $this->render('admin/genre/new.html.twig', [
             'genre' => $genre,
             'form' => $form,
         ]);
@@ -62,7 +62,7 @@ class GenreController extends AbstractController
             return $this->redirectToRoute('app_admin_genre_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/genre/edit.html.twig', [
+        return $this->render('admin/genre/edit.html.twig', [
             'genre' => $genre,
             'form' => $form,
         ]);
@@ -71,7 +71,7 @@ class GenreController extends AbstractController
     #[Route('/{id}', name: 'app_admin_genre_delete', methods: ['POST'])]
     public function delete(Request $request, Genre $genre, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$genre->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $genre->getId(), $request->request->get('_token'))) {
             $entityManager->remove($genre);
             $entityManager->flush();
         }

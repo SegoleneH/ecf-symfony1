@@ -41,7 +41,7 @@ class TestController extends AbstractController
 
         // Liste des users dont le role est "ROLE_USER", 
         // triée par ordre alphabétique d'email
-        $userRole = $userRepository->findUsersByRole('ROLE_USER');
+        $userRole = $userRepository->allRoleUser('ROLE_USER');
 
         // Liste des users inactifs triée par ordre alphabétique d'email
         $userActivity = $userRepository->findByEnabled(false);

@@ -47,6 +47,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function findAll(): array
     {
         return $this->createQueryBuilder('u')
+            ->select('u')
             ->orderBy('u.email', 'ASC')
             ->getQuery()
             ->getResult()
@@ -69,29 +70,48 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * This method find all users whose role is ROLE_USER ordered by email
      * @return User[] Returns an array of User objects
      */
-    public function findUsersByRole(?string $userRole): array
+    // public function findUsersByRole(?string $userRole): array
+    // {
+    //     return $this->createQueryBuilder('u')
+    //         ->andWhere('u.roles LIKE :val')
+    //         ->setParameter('val', "%$userRole%")
+    //         ->orderBy('u.email', 'ASC')
+    //         ->getQuery()
+    //         ->getResult()
+    //     ;
+    // }
+
+    public function allRoleUser(): array
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.roles LIKE :val')
-            ->setParameter('val', "%$userRole%")
+            ->andWhere('u.roles LIKE :roles')
+            ->setParameter('roles', '%ROLE_USER%')
             ->orderBy('u.email', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     /**
      * This method find all non active users
      * @return User[] Returns an array of User objects
      */
-    public function findUsersByEnabled(): array
+    // public function findUsersByEnabled(): array
+    // {
+    //     return $this->createQueryBuilder('u')
+    //         ->andWhere('u.enabled = 0')
+    //         ->orderBy('u.email', 'ASC')
+    //         ->getQuery()
+    //         ->getResult()
+    //     ;
+    // }
+    public function falseEnabled(): array
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.enabled = 0')
+            ->andWhere('u.enabled = :false')
+            ->setParameter('false', false)
             ->orderBy('u.email', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     public function findByEmprunteur(Emprunteur $emprunteur): array
@@ -107,7 +127,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
 
-//    public function findOneBySomeField($value): ?User
+    //    public function findOneBySomeField($value): ?User
 //    {
 //        return $this->createQueryBuilder('u')
 //            ->andWhere('u.exampleField = :val')

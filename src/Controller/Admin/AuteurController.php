@@ -36,7 +36,7 @@ class AuteurController extends AbstractController
             return $this->redirectToRoute('app_admin_auteur_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/auteur/new.html.twig', [
+        return $this->render('admin/auteur/new.html.twig', [
             'auteur' => $auteur,
             'form' => $form,
         ]);
@@ -62,7 +62,7 @@ class AuteurController extends AbstractController
             return $this->redirectToRoute('app_admin_auteur_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/auteur/edit.html.twig', [
+        return $this->render('admin/auteur/edit.html.twig', [
             'auteur' => $auteur,
             'form' => $form,
         ]);
@@ -71,7 +71,7 @@ class AuteurController extends AbstractController
     #[Route('/{id}', name: 'app_admin_auteur_delete', methods: ['POST'])]
     public function delete(Request $request, Auteur $auteur, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$auteur->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $auteur->getId(), $request->request->get('_token'))) {
             $entityManager->remove($auteur);
             $entityManager->flush();
         }

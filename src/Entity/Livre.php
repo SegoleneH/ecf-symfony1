@@ -12,6 +12,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+#[UniqueEntity('codeIsbn')]
+#[Assert\Cascade]
 #[Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false, hardDelete: false)]
 #[ORM\Entity(repositoryClass: LivreRepository::class)]
 class Livre
@@ -24,17 +26,33 @@ class Livre
     #[ORM\Column]
     private ?int $id = null;
 
+
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 1, max: 190)]
     #[ORM\Column(length: 190)]
     private ?string $titre = null;
 
+    #[Assert\Type(
+        type: 'integer',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
+    )]
     #[ORM\Column(nullable: true)]
     private ?int $annee_edition = null;
 
+    #[Assert\Type(
+        type: 'integer',
+        message: 'The value {{ value }} is not a valid {{ type }}.',
+    )]
+    #[Assert\NotBlank]
     #[ORM\Column]
     private ?int $nombre_pages = null;
 
+    #[Assert\Isbn(
+        type: Assert\Isbn::ISBN_13,
+        message: 'This value is not valid.',
+    )]
     #[ORM\Column(length: 190, nullable: true)]
-    private ?string $code_isbn = null;
+    private ?string $codeIsbn = null;
 
     #[ORM\OneToMany(mappedBy: 'livre', targetEntity: Emprunt::class)]
     private Collection $emprunts;
@@ -42,6 +60,7 @@ class Livre
     #[ORM\ManyToMany(targetEntity: Genre::class)]
     private Collection $genre;
 
+    #[Assert\Count(min: 1)]
     #[ORM\ManyToMany(targetEntity: Genre::class, mappedBy: 'livres')]
     private Collection $genres;
 
@@ -99,7 +118,7 @@ class Livre
 
     public function getCodeIsbn(): ?string
     {
-        return $this->code_isbn;
+        return $this->codeIsbn;
     }
 
     public function setCodeIsbn(?string $code_isbn): static

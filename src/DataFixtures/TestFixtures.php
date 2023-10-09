@@ -319,10 +319,10 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
             $password = $this->hasher->hashPassword($user, $info['password']);
 
             $user
-            ->setEmail($info['email'])
-            ->setPassword($password)
-            ->setRoles($info['roles'])
-            ->setEnabled($info['enabled'])
+                ->setEmail($info['email'])
+                ->setPassword($password)
+                ->setRoles($info['roles'])
+                ->setEnabled($info['enabled'])
             ;
             
             $this->manager->persist($user);
@@ -362,8 +362,6 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
                 ->setTel($this->faker->phoneNumber())
                 ->setUser($user)
             ;
-
-            $emprunteur->setUser($user);
             
             $this->manager->persist($emprunteur);
         }

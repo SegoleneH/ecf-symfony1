@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -11,6 +13,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 
 
+#[UniqueEntity('email')]
+#[Gedmo\SoftDeleteable(fieldName: "deletedAt", timeAware: false, hardDelete: false)]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -21,6 +25,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[Assert\Email(
+        mode: 'html5',
+        message: 'The email {{ value }} is not a valid email.',
+    )]
 
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
@@ -37,7 +46,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $enabled = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Emprunteur $emprunteur = null;
 
     public function getId(): ?int
@@ -148,6 +157,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setEmprunteur(?Emprunteur $emprunteur): static
     {
+        // unset the owning side of the relation if necessary
+        if ($emprunteur === null && $this->emprunteur !== null) {
+            $this->emprunteur->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($emprunteur !== null && $emprunteur->getUser() !== $this) {
+            $emprunteur->setUser($this);
+        }
         $this->emprunteur = $emprunteur;
 
         return $this;

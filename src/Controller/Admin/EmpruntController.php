@@ -36,7 +36,7 @@ class EmpruntController extends AbstractController
             return $this->redirectToRoute('app_admin_emprunt_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/emprunt/new.html.twig', [
+        return $this->render('admin/emprunt/new.html.twig', [
             'emprunt' => $emprunt,
             'form' => $form,
         ]);
@@ -62,7 +62,7 @@ class EmpruntController extends AbstractController
             return $this->redirectToRoute('app_admin_emprunt_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/emprunt/edit.html.twig', [
+        return $this->render('admin/emprunt/edit.html.twig', [
             'emprunt' => $emprunt,
             'form' => $form,
         ]);
@@ -71,7 +71,7 @@ class EmpruntController extends AbstractController
     #[Route('/{id}', name: 'app_admin_emprunt_delete', methods: ['POST'])]
     public function delete(Request $request, Emprunt $emprunt, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$emprunt->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $emprunt->getId(), $request->request->get('_token'))) {
             $entityManager->remove($emprunt);
             $entityManager->flush();
         }

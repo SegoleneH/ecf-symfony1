@@ -17,16 +17,20 @@ class ProfileController extends AbstractController
     #[Route('/profile/{id}', name: 'app_profile_index')]
     public function index(Emprunteur $emprunteur, User $user): Response
     {
+
+        $this->filterSessionUser($user);
+
         $emprunteur = $user->getEmprunteur();
         $emprunts = $emprunteur->getEmprunts();
 
+
+
         return $this->render('profile/index.html.twig', [
             'controller_name' => 'ProfileController',
-            'emprunteur' => $emprunteur,
             'emprunts' => $emprunts,
+            'emprunteur' => $emprunteur,
         ]);
     }
-
     private function filterSessionUser(User $user)
     {
         $sessionUser = $this->getUser();

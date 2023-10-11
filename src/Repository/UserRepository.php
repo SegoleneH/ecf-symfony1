@@ -44,14 +44,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * This method find all user ordered by email
      * @return User[] Returns an array of User objects
      */
-    public function findAll(): array
+    public function findAllUsersOrderByMail(): array
     {
         return $this->createQueryBuilder('u')
             ->select('u')
             ->orderBy('u.email', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
     /**
      * This method find a user with a specific email

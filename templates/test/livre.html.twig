@@ -4,6 +4,44 @@
 
 {% block body %}
 
+{% extends 'base.html.twig' %}
 
+{% block title %} Livres {% endblock %}
+
+{% block body %}
+
+    <h2>Livres</h2>
+
+    <h3>liste des livres, triée par ordre alphabétique</h3>
+    {% for livre in livres %}
+        <p> {{ livre.titre }} {{ livre.auteur }} (id {{livre.id}})</p>
+    {% endfor %}
+
+    <h3>Infos du livre 1 :</h3>
+        <p> Titre : {{ livre1.titre }} </p>
+        <p> Auteur : {{ livre1.auteur.nom }} </p>
+        <p> Année d'Édition : {{ livre1.anneeEdition }} </p>
+        <p> Nombre de pages : {{ livre1.nombrePages }} </p>
+        <p> Code ISBN : {{ livre1.codeIsbn }} </p>
+
+    <h3>Utilisateur dont l'email est 'foo.foo@example.com' :</h3>
+    {% for livre in fooEmail %}
+        <p> {{ livre.email }} (id {{ livre.id }}) </p>
+    {% endfor %}
+
+    <h3> Liste des livres où figure le mot 'lorem' </h3>
+    {% for livre in livreLorem %}
+    <p> {{ livre.titre }} </p>
+    {% endfor %}
+
+    <h2> Liste des livres dont l'auteur id est 2 </h2>
+    {% for livre in listeLivreIdAuth2 %}
+    <p> {{ livre.titre }} </p>
+    {% endfor %}
+
+    <h2> liste des livres dont le genre contient 'roman'</h2>
+    {% for livre in listeLivreGenreRoman %}
+    <p> {{ livre.titre }} </p>
+    {% endfor %}
 
 {% endblock %}

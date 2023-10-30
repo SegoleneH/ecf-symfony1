@@ -36,7 +36,7 @@ class EmpruntController extends AbstractController
             return $this->redirectToRoute('app_admin_emprunt_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/emprunt/new.html.twig', [
+        return $this->renderForm('admin/emprunt/new.html.twig', [
             'emprunt' => $emprunt,
             'form' => $form,
         ]);
@@ -62,7 +62,7 @@ class EmpruntController extends AbstractController
             return $this->redirectToRoute('app_admin_emprunt_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/emprunt/edit.html.twig', [
+        return $this->renderForm('admin/emprunt/edit.html.twig', [
             'emprunt' => $emprunt,
             'form' => $form,
         ]);

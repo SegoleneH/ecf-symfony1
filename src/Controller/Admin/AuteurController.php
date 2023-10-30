@@ -36,7 +36,7 @@ class AuteurController extends AbstractController
             return $this->redirectToRoute('app_admin_auteur_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/auteur/new.html.twig', [
+        return $this->renderForm('admin/auteur/new.html.twig', [
             'auteur' => $auteur,
             'form' => $form,
         ]);
@@ -62,7 +62,7 @@ class AuteurController extends AbstractController
             return $this->redirectToRoute('app_admin_auteur_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/auteur/edit.html.twig', [
+        return $this->renderForm('admin/auteur/edit.html.twig', [
             'auteur' => $auteur,
             'form' => $form,
         ]);

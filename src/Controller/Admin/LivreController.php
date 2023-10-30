@@ -36,7 +36,7 @@ class LivreController extends AbstractController
             return $this->redirectToRoute('app_admin_livre_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/livre/new.html.twig', [
+        return $this->renderForm('admin/livre/new.html.twig', [
             'livre' => $livre,
             'form' => $form,
         ]);
@@ -66,7 +66,7 @@ class LivreController extends AbstractController
             return $this->redirectToRoute('app_admin_livre_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/livre/edit.html.twig', [
+        return $this->renderForm('admin/livre/edit.html.twig', [
             'livre' => $livre,
             'form' => $form,
         ]);

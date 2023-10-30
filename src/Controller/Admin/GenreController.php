@@ -36,7 +36,7 @@ class GenreController extends AbstractController
             return $this->redirectToRoute('app_admin_genre_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/genre/new.html.twig', [
+        return $this->renderForm('admin/genre/new.html.twig', [
             'genre' => $genre,
             'form' => $form,
         ]);
@@ -62,7 +62,7 @@ class GenreController extends AbstractController
             return $this->redirectToRoute('app_admin_genre_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('admin/genre/edit.html.twig', [
+        return $this->renderForm('admin/genre/edit.html.twig', [
             'genre' => $genre,
             'form' => $form,
         ]);
